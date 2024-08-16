@@ -1,14 +1,14 @@
 import { CreateTicketDto } from "@/dto/create-ticket.dto";
 import { ITicketDocument } from "@/models/ticket.model";
 import { ticketService } from "@/services/ticket.service";
+import { createPayment } from "@/utils/create-payment.utils";
 
 export const ticketApplication = {
   async createTicket(ticket: CreateTicketDto): Promise<ITicketDocument> {
     try {
       const existingTicket = await ticketService.getTicketByEmail(ticket.email);
-      console.log(existingTicket);
+
       if (existingTicket) {
-        console.log("entra");
         return ticketService.updateTicketAmount(existingTicket);
       }
 
@@ -17,6 +17,15 @@ export const ticketApplication = {
       throw new Error(error);
     }
   },
+  async createMPPayment(ticket: CreateTicketDto): Promise<any> {
+    try {
+      const payment = await createPayment(ticket);
+      console.log(payment);
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  },
+
   async updateTicketAmount(ticket: ITicketDocument): Promise<ITicketDocument> {
     try {
       ticket.amount += 1;

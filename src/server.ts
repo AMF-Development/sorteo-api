@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import ticketRouter from "./routes/ticket.routes"; // Asegúrate de que los archivos TS están tipados correctamente
+import notificationRouter from "./routes/notification-webhook.routes";
 
 dotenv.config();
 
@@ -16,6 +17,10 @@ mongoose
 
 // Rutas
 app.use("/api/ticket", ticketRouter);
+app.use("/api/notification", notificationRouter);
+app.use("/api/success", (req: Request, res: Response) => {
+  res.send("Pago exitoso!");
+});
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

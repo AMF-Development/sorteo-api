@@ -28,4 +28,27 @@ export const ticketController = {
       }
     }
   },
+  createMPPayment: async (req: Request, res: Response) => {
+    try {
+      const ticketDto = plainToClass(CreateTicketDto, req.body);
+      const errors = await validate(ticketDto);
+
+      if (errors.length > 0) {
+        return res.status(400).json({ message: "Validation failed", errors });
+      }
+
+      const payment = await ticketApplication.createMPPayment(ticketDto);
+      res.status(201).json(payment);
+    } catch (error: any) {
+      if (error instanceof Error) {
+        res
+          .status(500)
+          .json({ message: `Failed to create payment: ${error.message}` });
+      } else {
+        res.status(500).json({
+          message: "An unknown error occurred while creating the payment",
+        });
+      }
+    }
+  },
 };
