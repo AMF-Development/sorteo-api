@@ -5,15 +5,19 @@ import { Router } from "express";
 const notificationRouter = Router();
 
 // POST /api/tickets - Crear un nuevo ticket
-notificationRouter.post("/", (req, res) => {
-  const paymentNotification:PaymentNotification = req.body;
+notificationRouter.post("/", async (req, res) => {
+  const paymentNotification: PaymentNotification = req.body;
 
-  if (paymentNotification.type === "payment" && paymentNotification.action === "payment.created") {
+  if (
+    paymentNotification.type === "payment" &&
+    paymentNotification.action === "payment.created"
+  ) {
     const { id: paymentId } = paymentNotification.data;
-    const paymentStatus = await paymentController.checkPaymentStatus(Number(paymentId));
+    const paymentStatus = await paymentController.checkPaymentStatus(
+      Number(paymentId)
+    );
 
     if (paymentStatus.status === "approved") {
-
       // const updatedTransaction: Partial<TransactionSchemaType> = {
       //   status: "approved",
       //   paymentId: Number(paymentId),
@@ -25,6 +29,7 @@ notificationRouter.post("/", (req, res) => {
       // );
       console.log("Payment approved");
     }
+  }
 });
 
 // GET /api/tickets - Obtener todos los tickets

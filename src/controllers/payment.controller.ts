@@ -27,5 +27,13 @@ export const paymentController = {
       }
     }
   },
-  async checkPaymentStatus(paymentId: number) {},
+  async checkPaymentStatus(paymentId: number) {
+    try {
+      return await paymentApplication.checkPaymentStatus(paymentId);
+    } catch (error: any) {
+      throw new Error(
+        `Failed to check status for payment ${paymentId}: ${error.message}`
+      );
+    }
+  },
 };

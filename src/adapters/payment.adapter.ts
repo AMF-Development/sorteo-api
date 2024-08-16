@@ -3,6 +3,7 @@ import { PreferenceCreateData } from "mercadopago/dist/clients/preference/create
 
 import { headers } from "@/config/mp.headers";
 import { PreferenceResponse } from "mercadopago/dist/clients//preference/commonTypes";
+import { PaymentCheckStatusResponse } from "@/interfaces/payment-check-status-response.interface";
 
 export const createPaymentAdapter = async (
   preference: PreferenceCreateData
@@ -26,13 +27,15 @@ export const checkPaymentStatusAdapter = async (
   paymentId: number
 ): Promise<PaymentCheckStatusResponse> => {
   try {
-    const x = await axios.get(
-      `https://api.mercadopago.com/checkout/preferences/${paymentId}`,
+    const response = await axios.get(
+      `https://api.mercadopago.com/v1/payments/${paymentId}`,
       { headers }
     );
-    return x.data;
+    return {
+      status: response.data.status,
+      externalReference: response.data.external_reference,
+    };
   } catch (error: any) {
-    console.log(error);
     throw new Error(
       `Failed to check status for payment ${paymentId}: ${error.message}`
     );

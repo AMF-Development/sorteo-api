@@ -1,4 +1,5 @@
-import { createPaymentAdapter } from "@/adapters/ticket.adapter";
+import { checkPaymentStatusAdapter } from "@/adapters/payment.adapter";
+import { createPaymentAdapter } from "@/adapters/payment.adapter";
 import { CreateTicketDto } from "@/dto/create-ticket.dto";
 import { preferenceBodyMapper } from "@/utils/preference-body.mapper";
 
@@ -12,15 +13,13 @@ export const paymentApplication = {
       throw new Error(`Failed to create payment link: ${error.message}`);
     }
   },
-  async checkPaymentStatus(paymentId:number) {
+  async checkPaymentStatus(paymentId: number) {
     try {
-            return await checkPaymentStatusAdapter(paymentId);
-          } catch (error: any) {
-            logToFile(
-              `Failed to check status for payment ${paymentId}: ${error.message}`
-            );
-            throw new Error(
-              `Failed to check status for payment ${paymentId}: ${error.message}`
-            );
+      return await checkPaymentStatusAdapter(paymentId);
+    } catch (error: any) {
+      throw new Error(
+        `Failed to check status for payment ${paymentId}: ${error.message}`
+      );
+    }
   },
 };
