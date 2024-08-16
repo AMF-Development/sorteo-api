@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import ticketRouter from "./routes/ticket.routes"; // Asegúrate de que los archivos TS están tipados correctamente
+import paymentRouter from "./routes/payment.routes"; // Asegúrate de que los archivos TS están tipados correctamente
 import notificationRouter from "./routes/notification-webhook.routes";
 
 dotenv.config();
@@ -16,9 +16,9 @@ mongoose
   .catch((err) => console.error("Error al conectar a MongoDB:", err));
 
 // Rutas
-app.use("/api/ticket", ticketRouter);
+app.use("/api/ticket", paymentRouter);
 app.use("/api/notification", notificationRouter);
-app.use("/api/success", (req: Request, res: Response) => {
+app.use("/api/notification", (req: Request, res: Response) => {
   res.send("Pago exitoso!");
 });
 
