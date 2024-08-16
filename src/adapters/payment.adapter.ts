@@ -21,3 +21,20 @@ export const createPaymentAdapter = async (
     throw new Error(`Failed to create payment link: ${error.message}`);
   }
 };
+
+export const checkPaymentStatusAdapter = async (
+  paymentId: number
+): Promise<PaymentCheckStatusResponse> => {
+  try {
+    const x = await axios.get(
+      `https://api.mercadopago.com/checkout/preferences/${paymentId}`,
+      { headers }
+    );
+    return x.data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(
+      `Failed to check status for payment ${paymentId}: ${error.message}`
+    );
+  }
+};

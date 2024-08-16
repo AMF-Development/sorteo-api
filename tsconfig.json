@@ -3,7 +3,7 @@
     "target": "es2016",
     "module": "commonjs",
     "rootDir": "./src",
-    "outDir": "./dist", // Carpeta de salida para archivos compilados
+    "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
