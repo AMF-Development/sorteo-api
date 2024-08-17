@@ -27,6 +27,7 @@ export const paymentApplication = {
       throw new Error(`Failed to create payment link: ${error.message}`);
     }
   },
+
   async checkPaymentStatus(paymentId: number) {
     try {
       return await checkPaymentStatusAdapter(paymentId);
@@ -36,6 +37,7 @@ export const paymentApplication = {
       );
     }
   },
+
   async updatePayment(
     externalReference: string,
     paymentUpdate: Partial<IPaymentDocument>
@@ -49,6 +51,7 @@ export const paymentApplication = {
       throw new Error(`Failed to update payment: ${error.message}`);
     }
   },
+
   async getPaymentByPaymentId(paymentId: number) {
     return await paymentService.getPaymentByPaymentId(paymentId);
   },

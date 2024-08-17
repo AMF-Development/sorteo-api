@@ -9,13 +9,11 @@ export const createPaymentAdapter = async (
   preference: PreferenceCreateData
 ): Promise<any> => {
   try {
-    console.log(headers);
     const x = await axios.post(
       "https://api.mercadopago.com/checkout/preferences",
       preference.body,
       { headers }
     );
-    console.log(x);
     return x;
   } catch (error: any) {
     console.log(error);
