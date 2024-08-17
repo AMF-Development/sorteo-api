@@ -1,5 +1,4 @@
 import { paymentController } from "@/controllers/payment.controller";
-import { ticketController } from "../controllers/ticket.controller";
 import { Router } from "express";
 
 const paymentRouter = Router();
