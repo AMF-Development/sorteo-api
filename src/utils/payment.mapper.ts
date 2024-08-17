@@ -1,11 +1,11 @@
-import { IPayment } from "@/interfaces/payment.interface";
+import { PaymentStatus } from "@/enum/payment-status.enum";
 import Payment, { IPaymentDocument } from "@/models/payment.model";
+import { PreferenceResponse } from "mercadopago/dist/clients/preference/commonTypes";
 
-export function paymentMapper(payment: any): IPaymentDocument {
+export function paymentMapper(payment: PreferenceResponse): IPaymentDocument {
   const newPayment = new Payment();
-  newPayment.paymentId = payment.paymentId;
-  newPayment.preferenceId = payment.preferenceId;
-  newPayment.externalReference = payment.externalReference;
-  newPayment.status = payment.status;
+  newPayment.preferenceId = payment.id;
+  newPayment.externalReference = payment.external_reference;
+  newPayment.status = PaymentStatus.INITIATED;
   return newPayment;
 }

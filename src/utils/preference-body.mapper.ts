@@ -7,6 +7,8 @@ export function preferenceBodyMapper(
 ): PreferenceCreateData {
   const areaCode = ticket.phone.split("-")[0];
   const phone = ticket.phone.split("-")[1];
+  const fechaActual = new Date();
+  const fechaConSuma = new Date(fechaActual.getTime() + 10 * 60000);
   return {
     body: {
       items: [
@@ -34,13 +36,16 @@ export function preferenceBodyMapper(
       },
       back_urls: {
         success:
-          "https://1db7-2803-9800-98c2-6f96-312a-f5c7-7c7c-4178.ngrok-free.app/api/success", //reenvia a la pagina de gamboost con exito
+          "https://1e59-2803-9800-98c2-6f96-81ff-c6a4-5379-1d8c.ngrok-free.app/api/success", //reenvia a la pagina de gamboost con exito
         //     failure: "http://localhost:8080/failure", //reenvia a la pagina de gamboost con error
         //     pending: "http://localhost:8080/pending", //reenvia a la pagina de gamboost con pendiente
       },
       auto_return: "approved",
       notification_url: process.env.NOTIFICATION_URL,
       external_reference: uuid(),
+      expiration_date_from: new Date().toISOString(),
+      expiration_date_to: fechaConSuma.toISOString(),
+      expires: true,
     },
   };
 }

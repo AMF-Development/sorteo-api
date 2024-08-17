@@ -1,6 +1,7 @@
 import { getPaymentByPaymentIdAdapter } from "@/adapters/payment.adapter";
 import { paymentApplication } from "@/application/payment.application";
 import { ticketApplication } from "@/application/ticket.application";
+import { PaymentStatus } from "@/enum/payment-status.enum";
 import { PaymentNotification } from "@/interfaces/payment-notification.interface";
 import { fromPreferenceToTicket } from "@/utils/ticket.mapper";
 import { Router } from "express";
@@ -20,9 +21,11 @@ notificationRouter.post("/", async (req, res) => {
     );
 
     if (paymentStatus.status === "approved") {
-      const { preferenceId } = await paymentApplication.getPaymentByPaymentId(
-        Number(paymentId)
+      const { preferenceId } = await paymentApplication.updatePayment(
+        paymentStatus.externalReference,
+        { status: PaymentStatus.APPROVED, paymentId: Number(paymentId) }
       );
+
       const preference = await getPaymentByPaymentIdAdapter(preferenceId);
 
       const ticket = fromPreferenceToTicket(preference);

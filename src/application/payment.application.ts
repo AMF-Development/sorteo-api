@@ -10,7 +10,6 @@ export const paymentApplication = {
   async createPayment(ticket: CreateTicketDto) {
     try {
       const preferenceBody = preferenceBodyMapper(ticket);
-
       const payment = await createPaymentAdapter(preferenceBody);
 
       if (!payment) {
@@ -54,5 +53,11 @@ export const paymentApplication = {
 
   async getPaymentByPaymentId(paymentId: number) {
     return await paymentService.getPaymentByPaymentId(paymentId);
+  },
+
+  async getPaymentByExternalReference(externalReference: string) {
+    return await paymentService.getPaymentByExternalReference(
+      externalReference
+    );
   },
 };

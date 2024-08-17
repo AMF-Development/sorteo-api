@@ -33,4 +33,15 @@ export const paymentService = {
       throw new Error(error.message);
     }
   },
+  getPaymentByExternalReference: async (
+    externalReference: string
+  ): Promise<IPaymentDocument | null> => {
+    try {
+      return await Payment.findOne({
+        externalReference,
+      });
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  },
 };

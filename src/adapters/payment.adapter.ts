@@ -7,16 +7,15 @@ import { PaymentCheckStatusResponse } from "@/interfaces/payment-check-status-re
 
 export const createPaymentAdapter = async (
   preference: PreferenceCreateData
-): Promise<any> => {
+): Promise<PreferenceResponse> => {
   try {
-    const x = await axios.post(
+    const response = await axios.post(
       "https://api.mercadopago.com/checkout/preferences",
       preference.body,
       { headers }
     );
-    return x;
+    return response.data;
   } catch (error: any) {
-    console.log(error);
     throw new Error(`Failed to create payment link: ${error.message}`);
   }
 };

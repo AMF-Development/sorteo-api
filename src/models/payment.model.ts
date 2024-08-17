@@ -7,7 +7,7 @@ export const PaymentSchema = new mongoose.Schema(
     paymentId: { type: Number, required: false },
     preferenceId: { type: String, required: true },
     externalReference: { type: String, required: true },
-    status: { type: PaymentStatus, required: true },
+    status: { type: String, required: true },
   },
   {
     timestamps: true,

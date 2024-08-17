@@ -7,7 +7,6 @@ import { Request, Response } from "express";
 export const paymentController = {
   async createPayment(req: Request, res: Response) {
     try {
-      const { createPayment } = paymentApplication;
       const ticket = plainToClass(CreateTicketDto, req.body);
       const errors = await validate(ticket);
 
@@ -15,7 +14,7 @@ export const paymentController = {
         return res.status(400).json({ message: "Validation failed", errors });
       }
 
-      const payment = await createPayment(ticket);
+      const payment = await paymentApplication.createPayment(ticket);
       res.status(201).json(payment);
     } catch (error: any) {
       if (error instanceof Error) {
