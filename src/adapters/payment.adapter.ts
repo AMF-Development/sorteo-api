@@ -41,3 +41,19 @@ export const checkPaymentStatusAdapter = async (
     );
   }
 };
+
+export const getPaymentByPaymentIdAdapter = async (
+  paymentId: string
+): Promise<PreferenceResponse> => {
+  try {
+    const response = await axios.get(
+      `https://api.mercadopago.com/checkout/preferences/${paymentId}`,
+      { headers }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      `Failed to get payment by payment id ${paymentId}: ${error.message}`
+    );
+  }
+};

@@ -5,6 +5,8 @@ import { v4 as uuid } from "uuid";
 export function preferenceBodyMapper(
   ticket: CreateTicketDto
 ): PreferenceCreateData {
+  const areaCode = ticket.phone.split("-")[0];
+  const phone = ticket.phone.split("-")[1];
   return {
     body: {
       items: [
@@ -19,6 +21,10 @@ export function preferenceBodyMapper(
         name: ticket.name,
         surname: ticket.lastName,
         email: ticket.email,
+        phone: {
+          area_code: areaCode,
+          number: phone,
+        },
         date_created: new Date().toISOString(),
       },
       payment_methods: {

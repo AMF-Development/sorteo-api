@@ -18,9 +18,6 @@ mongoose
 // Rutas
 app.use("/api/ticket", paymentRouter);
 app.use("/api/notification", notificationRouter);
-app.use("/api/notification", (req: Request, res: Response) => {
-  res.send("Pago exitoso!");
-});
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

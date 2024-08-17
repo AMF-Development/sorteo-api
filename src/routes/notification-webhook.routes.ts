@@ -1,10 +1,12 @@
-import { paymentController } from "@/controllers/payment.controller";
+import { getPaymentByPaymentIdAdapter } from "@/adapters/payment.adapter";
+import { paymentApplication } from "@/application/payment.application";
+import { ticketApplication } from "@/application/ticket.application";
 import { PaymentNotification } from "@/interfaces/payment-notification.interface";
+import { fromPreferenceToTicket } from "@/utils/ticket.mapper";
 import { Router } from "express";
 
 const notificationRouter = Router();
 
-// POST /api/tickets - Crear un nuevo ticket
 notificationRouter.post("/", async (req, res) => {
   const paymentNotification: PaymentNotification = req.body;
 
@@ -13,26 +15,32 @@ notificationRouter.post("/", async (req, res) => {
     paymentNotification.action === "payment.created"
   ) {
     const { id: paymentId } = paymentNotification.data;
-    const paymentStatus = await paymentController.checkPaymentStatus(
+    const paymentStatus = await paymentApplication.checkPaymentStatus(
       Number(paymentId)
     );
 
     if (paymentStatus.status === "approved") {
-      // const updatedTransaction: Partial<TransactionSchemaType> = {
-      //   status: "approved",
-      //   paymentId: Number(paymentId),
-      // };
+      const { preferenceId } = await paymentApplication.getPaymentByPaymentId(
+        Number(paymentId)
+      );
+      const preference = await getPaymentByPaymentIdAdapter(preferenceId);
 
-      // TransactionsController.updateTransaction(
-      //   paymentStatus.externalReference,
-      //   updatedTransaction
-      // );
-      console.log("Payment approved");
+      const ticket = fromPreferenceToTicket(preference);
+      await ticketApplication.createTicket(ticket);
     }
   }
 });
 
-// GET /api/tickets - Obtener todos los tickets
-// router.get("/", ticketController.getAllTickets);
+notificationRouter.post("/success", async (req, res) => {
+  console.log("Payment success");
+});
+
+notificationRouter.post("/failure", async (req, res) => {
+  console.log("Payment failure");
+});
+
+notificationRouter.post("/pending", async (req, res) => {
+  console.log("Payment pending");
+});
 
 export default notificationRouter;

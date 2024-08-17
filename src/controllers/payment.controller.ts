@@ -2,9 +2,10 @@ import { paymentApplication } from "@/application/payment.application";
 import { CreateTicketDto } from "@/dto/create-ticket.dto";
 import { plainToClass } from "class-transformer";
 import { validate } from "class-validator";
+import { Request, Response } from "express";
 
 export const paymentController = {
-  async createPayment(req, res) {
+  async createPayment(req: Request, res: Response) {
     try {
       const ticketDto = plainToClass(CreateTicketDto, req.body);
       const errors = await validate(ticketDto);
@@ -25,15 +26,6 @@ export const paymentController = {
           message: "An unknown error occurred while creating the payment",
         });
       }
-    }
-  },
-  async checkPaymentStatus(paymentId: number) {
-    try {
-      return await paymentApplication.checkPaymentStatus(paymentId);
-    } catch (error: any) {
-      throw new Error(
-        `Failed to check status for payment ${paymentId}: ${error.message}`
-      );
     }
   },
 };

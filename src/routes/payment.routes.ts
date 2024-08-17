@@ -7,6 +7,4 @@ const paymentRouter = Router();
 // POST /api/payments - Crear un nuevo payment
 paymentRouter.post("/", paymentController.createPayment);
 
-// GET /api/payments - Obtener todos los payments
-
 export default paymentRouter;
