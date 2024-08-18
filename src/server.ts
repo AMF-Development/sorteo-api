@@ -3,10 +3,20 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import paymentRouter from "./routes/payment.routes"; // Asegúrate de que los archivos TS están tipados correctamente
 import notificationRouter from "./routes/notification-webhook.routes";
+import cors from "cors";
+import backUrlRouter from "./routes/back-url.routes";
 
 dotenv.config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 console.log(process.env.MONGO_URI);
@@ -18,6 +28,7 @@ mongoose
 // Rutas
 app.use("/api/ticket", paymentRouter);
 app.use("/api/notification", notificationRouter);
+app.use("/", backUrlRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
