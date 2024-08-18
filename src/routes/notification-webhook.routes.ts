@@ -6,6 +6,7 @@ import { paymentApplication } from "@/application/payment.application";
 import { ticketApplication } from "@/application/ticket.application";
 import { PaymentStatus } from "@/enum/payment-status.enum";
 import { PaymentNotification } from "@/interfaces/payment-notification.interface";
+import { handlePaymentStatus } from "@/utils/handle-payment-status.util";
 import { fromPreferenceToTicket } from "@/utils/ticket.mapper";
 import { Router } from "express";
 
@@ -24,15 +25,16 @@ notificationRouter.post("/", async (req, res) => {
     );
 
     if (paymentStatus.status === "approved") {
-      const { preferenceId } = await paymentApplication.updatePayment(
-        paymentStatus.externalReference,
-        { status: PaymentStatus.APPROVED, paymentId: Number(paymentId) }
-      );
+      // const { preferenceId } = await paymentApplication.updatePayment(
+      //   paymentStatus.externalReference,
+      //   { status: PaymentStatus.APPROVED, paymentId: Number(paymentId) }
+      // );
 
-      const preference = await getPaymentByPaymentIdAdapter(preferenceId);
+      // const preference = await getPaymentByPaymentIdAdapter(preferenceId);
 
-      const ticket = fromPreferenceToTicket(preference);
-      await ticketApplication.createTicket(ticket);
+      // const ticket = fromPreferenceToTicket(preference);
+      // await ticketApplication.createTicket(ticket);
+
       res.sendStatus(200);
     } else if (paymentStatus.status === "pending") {
       await paymentApplication.updatePayment(paymentStatus.externalReference, {
@@ -50,25 +52,10 @@ notificationRouter.post("/", async (req, res) => {
   }
 });
 
-async function processPayment(paymentId) {
-  const paymentStatusCheck = await checkPaymentStatusAdapter(paymentId);
-
-  switch (paymentStatusCheck.status) {
-    case "approved":
-      return "/pago-confirmado";
-    case "rejected":
-      return "/pago-fallido";
-    case "pending":
-      return "/pago-pendiente";
-    default:
-      return "/pago-desconocido";
-  }
-}
-
 notificationRouter.get("/pago/:status", async (req, res) => {
   const paymentId = req.query.payment_id;
 
-  const redirectUrl = processPayment(paymentId);
+  const redirectUrl = handlePaymentStatus(paymentId);
 
   res.redirect(await redirectUrl);
 });

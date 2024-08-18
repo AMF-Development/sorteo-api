@@ -35,15 +35,12 @@ export function preferenceBodyMapper(
         installments: 1,
       },
       back_urls: {
-        success:
-          "https://7fb4-2803-9800-98c2-6f96-61b5-7837-d68d-c0fd.ngrok-free.app/api/notification/pago/success",
-        failure:
-          "https://7fb4-2803-9800-98c2-6f96-61b5-7837-d68d-c0fd.ngrok-free.app/api/notification/pago/failure",
-        pending:
-          "https://7fb4-2803-9800-98c2-6f96-61b5-7837-d68d-c0fd.ngrok-free.app/api/notification/pago/pending",
+        success: `${process.env.NOTIFICATION_URL}/api/notification/pago/success`,
+        failure: `${process.env.NOTIFICATION_URL}/api/notification/pago/failure`,
+        pending: `${process.env.NOTIFICATION_URL}/api/notification/pago/pending`,
       },
       auto_return: "approved",
-      notification_url: process.env.NOTIFICATION_URL,
+      notification_url: `${process.env.NOTIFICATION_URL}/api/notification`,
       external_reference: uuid(),
       expiration_date_from: new Date().toISOString(),
       expiration_date_to: fechaConSuma.toISOString(),
