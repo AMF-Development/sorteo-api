@@ -36,9 +36,11 @@ export function preferenceBodyMapper(
       },
       back_urls: {
         success:
-          "https://1e59-2803-9800-98c2-6f96-81ff-c6a4-5379-1d8c.ngrok-free.app/api/notification/success", //reenvia a la pagina de gamboost con exito
-        //     failure: "http://localhost:8080/failure", //reenvia a la pagina de gamboost con error
-        //     pending: "http://localhost:8080/pending", //reenvia a la pagina de gamboost con pendiente
+          "https://7fb4-2803-9800-98c2-6f96-61b5-7837-d68d-c0fd.ngrok-free.app/api/notification/pago/success",
+        failure:
+          "https://7fb4-2803-9800-98c2-6f96-61b5-7837-d68d-c0fd.ngrok-free.app/api/notification/pago/failure",
+        pending:
+          "https://7fb4-2803-9800-98c2-6f96-61b5-7837-d68d-c0fd.ngrok-free.app/api/notification/pago/pending",
       },
       auto_return: "approved",
       notification_url: process.env.NOTIFICATION_URL,
