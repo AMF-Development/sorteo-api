@@ -25,16 +25,6 @@ notificationRouter.post("/", async (req, res) => {
     );
 
     if (paymentStatus.status === "approved") {
-      // const { preferenceId } = await paymentApplication.updatePayment(
-      //   paymentStatus.externalReference,
-      //   { status: PaymentStatus.APPROVED, paymentId: Number(paymentId) }
-      // );
-
-      // const preference = await getPaymentByPaymentIdAdapter(preferenceId);
-
-      // const ticket = fromPreferenceToTicket(preference);
-      // await ticketApplication.createTicket(ticket);
-
       res.sendStatus(200);
     } else if (paymentStatus.status === "pending") {
       await paymentApplication.updatePayment(paymentStatus.externalReference, {
