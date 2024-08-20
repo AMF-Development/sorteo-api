@@ -1,0 +1,4 @@
+ganatuhilux.com
+=> sign up - cada persona que se registra se le asigna un codigo de sorteo (como si fuese num de quini). mongodb.
+=> sistemita para sortear el ganador. mostrar por pantalla el ganador. que tambien se aplique en el widget-iframe.
+=> la pagina tendra un contador de tiempo (count down) - el sorteo termina en 20 dias - iframe -usar en pagina del casino
