@@ -35,9 +35,9 @@ export function preferenceBodyMapper(
         installments: 1,
       },
       back_urls: {
-        success: `${process.env.NOTIFICATION_URL}/api/notification/pago/success`,
-        failure: `${process.env.NOTIFICATION_URL}/api/notification/pago/failure`,
-        pending: `${process.env.NOTIFICATION_URL}/api/notification/pago/pending`,
+        success: `${process.env.NOTIFICATION_URL}/api/notification/pago`,
+        failure: `${process.env.NOTIFICATION_URL}/api/notification/pago`,
+        pending: `${process.env.NOTIFICATION_URL}/api/notification/pago`,
       },
       auto_return: "approved",
       notification_url: `${process.env.NOTIFICATION_URL}/api/notification`,
