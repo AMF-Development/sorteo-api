@@ -28,11 +28,9 @@ export const sendEmailNotificationAdapter = async (
     subject: options.subject,
     html: options.html,
   };
-  console.log(transporter);
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully");
   } catch (error) {
     console.error("Error sending email:", error);
     throw error;
