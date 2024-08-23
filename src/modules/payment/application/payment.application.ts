@@ -1,10 +1,10 @@
-import { checkPaymentStatusAdapter } from "@/adapters/payment.adapter";
-import { createPaymentAdapter } from "@/adapters/payment.adapter";
-import { CreateTicketDto } from "@/dto/create-ticket.dto";
-import { IPaymentDocument } from "@/models/payment.model";
-import { paymentService } from "@/services/payment.service";
-import { paymentMapper } from "@/utils/payment.mapper";
-import { preferenceBodyMapper } from "@/utils/preference-body.mapper";
+import { checkPaymentStatusAdapter } from "@/modules/notification/infrastructure/adapter/payment.adapter";
+import { createPaymentAdapter } from "@/modules/notification/infrastructure/adapter/payment.adapter";
+import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
+import { IPaymentDocument } from "@/modules/payment/infrastructure/entities/payment.model";
+import { paymentService } from "@/modules/payment/infrastructure/persistence/payment.service";
+import { paymentMapper } from "@/modules/payment/application/utils/payment.mapper";
+import { preferenceBodyMapper } from "@/modules/payment/application/utils/preference-body.mapper";
 
 export const paymentApplication = {
   async createPayment(ticket: CreateTicketDto) {

@@ -1,7 +1,7 @@
-import { paymentApplication } from "@/application/payment.application";
-import { PaymentStatus } from "@/enum/payment-status.enum";
-import { PaymentNotification } from "@/interfaces/payment-notification.interface";
-import { notificationService } from "@/services/notification.service";
+import { paymentApplication } from "@/modules/payment/application/payment.application";
+import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
+import { PaymentNotification } from "@/modules/payment/application/interfaces/payment-notification.interface";
+import { notificationService } from "@/modules/notification/infrastructure/persistence/notification.service";
 import { Router } from "express";
 
 const notificationRouter = Router();
@@ -25,13 +25,13 @@ notificationRouter.post("/", async (req, res) => {
         status: PaymentStatus.PENDING,
         paymentId: Number(paymentId),
       });
-      res.sendStatus(500).json({ message: "Payment pending" });
+      res.sendStatus(500);
     } else if (paymentStatus.status === "rejected") {
       await paymentApplication.updatePayment(paymentStatus.externalReference, {
         status: PaymentStatus.REJECTED,
         paymentId: Number(paymentId),
       });
-      res.sendStatus(500).json({ message: "Payment rejected" });
+      res.sendStatus(500);
     }
   }
 });

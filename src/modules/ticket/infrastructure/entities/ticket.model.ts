@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { ITicket } from "@/interfaces/ticket.interface";
+import { ITicket } from "../../application/interface/ticket.interface";
 
 const ticketSchema: Schema = new mongoose.Schema(
   {

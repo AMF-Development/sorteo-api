@@ -1,5 +1,7 @@
-import { CreateTicketDto } from "@/dto/create-ticket.dto";
-import Ticket, { ITicketDocument } from "@/models/ticket.model";
+import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
+import Ticket, {
+  ITicketDocument,
+} from "@/modules/ticket/infrastructure/entities/ticket.model";
 import { PreferenceResponse } from "mercadopago/dist/clients/preference/commonTypes";
 
 export function ticketMapper(ticket: CreateTicketDto): ITicketDocument {

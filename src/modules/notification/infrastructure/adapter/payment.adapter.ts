@@ -3,7 +3,7 @@ import { PreferenceCreateData } from "mercadopago/dist/clients/preference/create
 
 import { headers } from "@/config/mp.headers";
 import { PreferenceResponse } from "mercadopago/dist/clients//preference/commonTypes";
-import { PaymentCheckStatusResponse } from "@/interfaces/payment-check-status-response.interface";
+import { PaymentCheckStatusResponse } from "@/modules/payment/application/interfaces/payment-check-status-response.interface";
 
 export const createPaymentAdapter = async (
   preference: PreferenceCreateData

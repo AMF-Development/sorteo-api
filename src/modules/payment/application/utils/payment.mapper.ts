@@ -1,5 +1,7 @@
-import { PaymentStatus } from "@/enum/payment-status.enum";
-import Payment, { IPaymentDocument } from "@/models/payment.model";
+import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
+import Payment, {
+  IPaymentDocument,
+} from "@/modules/payment/infrastructure/entities/payment.model";
 import { PreferenceResponse } from "mercadopago/dist/clients/preference/commonTypes";
 
 export function paymentMapper(payment: PreferenceResponse): IPaymentDocument {

@@ -1,8 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import paymentRouter from "./routes/payment.routes"; // Asegúrate de que los archivos TS están tipados correctamente
-import notificationRouter from "./routes/notification.routes";
+import paymentRouter from "./modules/payment/routes/payment.routes"; // Asegúrate de que los archivos TS están tipados correctamente
+import notificationRouter from "./modules/notification/routes/notification.routes";
 import cors from "cors";
 
 dotenv.config();

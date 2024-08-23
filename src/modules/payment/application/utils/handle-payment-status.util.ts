@@ -1,9 +1,9 @@
-import { getPaymentByPaymentIdAdapter } from "@/adapters/payment.adapter";
-import { paymentApplication } from "@/application/payment.application";
-import { PaymentStatus } from "@/enum/payment-status.enum";
-import { fromPreferenceToTicket } from "./ticket.mapper";
-import { ticketApplication } from "@/application/ticket.application";
-import { notificationService } from "@/services/notification.service";
+import { getPaymentByPaymentIdAdapter } from "@/modules/notification/infrastructure/adapter/payment.adapter";
+import { paymentApplication } from "@/modules/payment/application/payment.application";
+import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
+import { fromPreferenceToTicket } from "@/modules/ticket/application/utils/ticket.mapper";
+import { ticketApplication } from "@/modules/ticket/application/ticket.application";
+import { notificationService } from "@/modules/notification/infrastructure/persistence/notification.service";
 
 export const handleApprovedPayment = async (
   paymentId: string,
