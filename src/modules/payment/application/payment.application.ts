@@ -9,7 +9,9 @@ import { preferenceBodyMapper } from "@/modules/payment/application/utils/prefer
 export const paymentApplication = {
   async createPayment(ticket: CreateTicketDto) {
     try {
-      const preferenceBody = preferenceBodyMapper(ticket);
+      const modifiedTicket = { ...ticket, email: ticket.email.toLowerCase() };
+
+      const preferenceBody = preferenceBodyMapper(modifiedTicket);
       const payment = await createPaymentAdapter(preferenceBody);
 
       if (!payment) {
