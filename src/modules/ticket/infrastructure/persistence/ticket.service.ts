@@ -1,6 +1,8 @@
-import { CreateTicketDto } from "@/dto/create-ticket.dto";
-import Ticket, { ITicketDocument } from "@/models/ticket.model";
-import { ticketMapper } from "@/utils/ticket.mapper";
+import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
+import Ticket, {
+  ITicketDocument,
+} from "@/modules/ticket/infrastructure/entities/ticket.model";
+import { ticketMapper } from "@/modules/ticket/application/utils/ticket.mapper";
 
 export const ticketService = {
   async createTicket(ticket: CreateTicketDto): Promise<ITicketDocument> {

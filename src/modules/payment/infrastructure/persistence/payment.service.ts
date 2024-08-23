@@ -1,4 +1,6 @@
-import Payment, { IPaymentDocument } from "@/models/payment.model";
+import Payment, {
+  IPaymentDocument,
+} from "@/modules/payment/infrastructure/entities/payment.model";
 
 export const paymentService = {
   async createPayment(payment: IPaymentDocument): Promise<IPaymentDocument> {

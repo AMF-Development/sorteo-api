@@ -1,4 +1,4 @@
-import { paymentController } from "@/controllers/payment.controller";
+import { paymentController } from "@/modules/payment/controller/payment.controller";
 import { Router } from "express";
 
 const paymentRouter = Router();

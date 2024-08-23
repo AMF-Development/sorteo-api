@@ -1,4 +1,4 @@
-import { CreateTicketDto } from "@/dto/create-ticket.dto";
+import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
 import { PreferenceCreateData } from "mercadopago/dist/clients/preference/create/types";
 import { v4 as uuid } from "uuid";
 

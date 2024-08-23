@@ -1,6 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { IPayment } from "@/interfaces/payment.interface";
-import { PaymentStatus } from "@/enum/payment-status.enum";
+import { IPayment } from "../../application/interfaces/payment.interface";
 
 export const PaymentSchema = new mongoose.Schema(
   {

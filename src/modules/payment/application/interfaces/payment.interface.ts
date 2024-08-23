@@ -1,4 +1,4 @@
-import { PaymentStatus } from "@/enum/payment-status.enum";
+import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
 
 export interface IPayment {
   paymentId?: number;

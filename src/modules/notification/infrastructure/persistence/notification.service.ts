@@ -1,14 +1,14 @@
 import {
   sendEmailNotificationAdapter,
   SendMailOptions,
-} from "@/adapters/mail-service.adapter";
-import { paymentApplication } from "@/application/payment.application";
-import { ITicketDocument } from "@/models/ticket.model";
+} from "@/modules/notification/infrastructure/adapter/mail-service.adapter";
+import { paymentApplication } from "@/modules/payment/application/payment.application";
+import { ITicketDocument } from "@/modules/ticket/infrastructure/entities/ticket.model";
 import {
+  handleRejectedPayment,
   handleApprovedPayment,
   handlePendingPayment,
-  handleRejectedPayment,
-} from "@/utils/handle-payment-status.util";
+} from "@/modules/payment/application/utils/handle-payment-status.util";
 
 export const notificationService = {
   async handlePaymentStatus(paymentId: string) {

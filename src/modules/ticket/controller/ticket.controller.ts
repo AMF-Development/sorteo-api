@@ -1,5 +1,5 @@
 import { ticketApplication } from "@/application/ticket.application";
-import { CreateTicketDto } from "@/dto/create-ticket.dto";
+import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
 import { plainToClass } from "class-transformer";
 import { validate } from "class-validator";
 import { Request, Response } from "express";
