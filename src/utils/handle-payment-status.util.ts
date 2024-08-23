@@ -4,38 +4,7 @@ import { PaymentStatus } from "@/enum/payment-status.enum";
 import { fromPreferenceToTicket } from "./ticket.mapper";
 import { ticketApplication } from "@/application/ticket.application";
 
-export const handlePaymentStatus = async (paymentId: string) => {
-  try {
-    const paymentStatus = await paymentApplication.checkPaymentStatus(
-      Number(paymentId)
-    );
-
-    switch (paymentStatus.status) {
-      case "approved":
-        return handleApprovedPayment(
-          paymentId,
-          paymentStatus.externalReference
-        );
-
-      case "pending":
-        return handlePendingPayment(paymentId, paymentStatus.externalReference);
-
-      case "rejected":
-        return handleRejectedPayment(
-          paymentId,
-          paymentStatus.externalReference
-        );
-
-      default:
-        return `${process.env.FRONT_URL}/pago-no-confirmado`;
-    }
-  } catch (error) {
-    console.error("Error handling payment status:", error);
-    return `${process.env.FRONT_URL}/pago-no-confirmado`;
-  }
-};
-
-const handleApprovedPayment = async (
+export const handleApprovedPayment = async (
   paymentId: string,
   externalReference: string
 ) => {
@@ -59,7 +28,7 @@ const handleApprovedPayment = async (
   return `${process.env.FRONT_URL}/pago-confirmado?name=${ticket.name}&email=${ticket.email}&amount=${ticket.amount}`;
 };
 
-const handlePendingPayment = async (
+export const handlePendingPayment = async (
   paymentId: string,
   externalReference: string
 ) => {
@@ -70,7 +39,7 @@ const handlePendingPayment = async (
   return `${process.env.FRONT_URL}/pago-pendiente`;
 };
 
-const handleRejectedPayment = async (
+export const handleRejectedPayment = async (
   paymentId: string,
   externalReference: string
 ) => {

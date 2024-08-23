@@ -1,7 +1,7 @@
 import { paymentApplication } from "@/application/payment.application";
 import { PaymentStatus } from "@/enum/payment-status.enum";
 import { PaymentNotification } from "@/interfaces/payment-notification.interface";
-import { handlePaymentStatus } from "@/utils/handle-payment-status.util";
+import { notificationService } from "@/services/notification.service";
 import { Router } from "express";
 
 const notificationRouter = Router();
@@ -36,9 +36,11 @@ notificationRouter.post("/", async (req, res) => {
   }
 });
 
-notificationRouter.get("/pago/:status", async (req, res) => {
+notificationRouter.get("/pago", async (req, res) => {
   const paymentId = req.query.payment_id;
-  const redirectUrl = handlePaymentStatus(paymentId as string);
+  const redirectUrl = notificationService.handlePaymentStatus(
+    paymentId as string
+  );
 
   res.redirect(await redirectUrl);
 });
