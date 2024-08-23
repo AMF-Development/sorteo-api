@@ -3,6 +3,7 @@ import { paymentApplication } from "@/application/payment.application";
 import { PaymentStatus } from "@/enum/payment-status.enum";
 import { fromPreferenceToTicket } from "./ticket.mapper";
 import { ticketApplication } from "@/application/ticket.application";
+import { notificationService } from "@/services/notification.service";
 
 export const handleApprovedPayment = async (
   paymentId: string,
@@ -25,6 +26,7 @@ export const handleApprovedPayment = async (
 
   const ticketMapped = fromPreferenceToTicket(preference);
   const ticket = await ticketApplication.createTicket(ticketMapped);
+  await notificationService.sendEmailNotification(ticket);
   return `${process.env.FRONT_URL}/pago-confirmado?name=${ticket.name}&email=${ticket.email}&amount=${ticket.amount}`;
 };
 

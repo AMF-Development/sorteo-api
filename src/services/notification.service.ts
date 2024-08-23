@@ -1,4 +1,9 @@
+import {
+  sendEmailNotificationAdapter,
+  SendMailOptions,
+} from "@/adapters/mail-service.adapter";
 import { paymentApplication } from "@/application/payment.application";
+import { ITicketDocument } from "@/models/ticket.model";
 import {
   handleApprovedPayment,
   handlePendingPayment,
@@ -34,5 +39,14 @@ export const notificationService = {
       console.error("Error handling payment status:", error);
       return `${process.env.FRONT_URL}/pago-no-confirmado`;
     }
+  },
+  async sendEmailNotification(ticket: ITicketDocument) {
+    const { email } = ticket;
+    const emailOptions: SendMailOptions = {
+      to: email,
+      subject: "¡Tu pago ha sido confirmado!",
+      html: `Le enviamos este correo ${ticket.name} ${ticket.lastName} para confirmar que su pago ha sido aprobado. <br> \n Usted posee ${ticket.amount} participaciones!<br> \n <br> \n ¡Gracias por confiar en nosotros y mucha suerte!`,
+    };
+    await sendEmailNotificationAdapter(emailOptions);
   },
 };
