@@ -9,6 +9,7 @@ import {
   handleApprovedPayment,
   handlePendingPayment,
 } from "@/modules/payment/application/utils/handle-payment-status.util";
+import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
 
 export const notificationService = {
   async handlePaymentStatus(paymentId: string) {
@@ -17,17 +18,17 @@ export const notificationService = {
         Number(paymentId)
       );
       switch (paymentStatus.status) {
-        case "approved":
+        case PaymentStatus.APPROVED:
           return handleApprovedPayment(
             paymentId,
             paymentStatus.externalReference
           );
-        case "pending":
+        case PaymentStatus.PENDING:
           return handlePendingPayment(
             paymentId,
             paymentStatus.externalReference
           );
-        case "rejected":
+        case PaymentStatus.REJECTED:
           return handleRejectedPayment(
             paymentId,
             paymentStatus.externalReference

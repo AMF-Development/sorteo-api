@@ -3,7 +3,7 @@ import { paymentApplication } from "@/modules/payment/application/payment.applic
 import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
 import { fromPreferenceToTicket } from "@/modules/ticket/application/utils/ticket.mapper";
 import { ticketApplication } from "@/modules/ticket/application/ticket.application";
-import { notificationService } from "@/modules/notification/infrastructure/persistence/notification.service";
+import { notificationService } from "@/modules/notification/application/service/notification.service";
 
 export const handleApprovedPayment = async (
   paymentId: string,
