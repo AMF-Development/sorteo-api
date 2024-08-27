@@ -1,9 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import paymentRouter from "./modules/payment/routes/payment.routes"; // Asegúrate de que los archivos TS están tipados correctamente
+import paymentRouter from "./modules/payment/routes/payment.routes";
 import notificationRouter from "./modules/notification/routes/notification.routes";
 import cors from "cors";
+import ticketRouter from "./modules/ticket/routes/ticket.routes";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ mongoose
 // Rutas
 app.use("/api/ticket", paymentRouter);
 app.use("/api/notification", notificationRouter);
+app.use("/api/ticket", ticketRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
