@@ -1,7 +1,7 @@
 import { paymentApplication } from "@/modules/payment/application/payment.application";
 import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
 import { PaymentNotification } from "@/modules/payment/application/interfaces/payment-notification.interface";
-import { notificationService } from "@/modules/notification/infrastructure/persistence/notification.service";
+import { notificationService } from "../application/service/notification.service";
 import { Router } from "express";
 
 const notificationRouter = Router();
