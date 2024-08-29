@@ -1,4 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 export const headers = {
-  Authorization: `Bearer APP_USR-1572945661912223-081616-71fa08982ff694787b6e999a2e2702f7-1950592996`,
+  Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
   "Content-Type": "application/json",
 };
