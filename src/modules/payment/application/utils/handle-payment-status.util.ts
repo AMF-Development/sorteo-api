@@ -26,7 +26,7 @@ export const handleApprovedPayment = async (
 
   const ticketMapped = fromPreferenceToTicket(preference);
   const ticket = await ticketApplication.createTicket(ticketMapped);
-  await notificationService.sendEmailNotification(ticket);
+  await notificationService.sendEmailConfirmedNotification(ticket);
   return `${process.env.FRONT_URL}/pago-confirmado?name=${ticket.name}&email=${ticket.email}&amount=${ticket.amount}`;
 };
 
@@ -34,10 +34,24 @@ export const handlePendingPayment = async (
   paymentId: string,
   externalReference: string
 ) => {
-  await paymentApplication.updatePayment(externalReference, {
-    status: PaymentStatus.PENDING,
-    paymentId: Number(paymentId),
-  });
+  const payment = await paymentApplication.getPaymentByExternalReference(
+    externalReference
+  );
+
+  if (payment.status === PaymentStatus.PENDING) {
+    return `${process.env.FRONT_URL}`;
+  }
+  const { preferenceId } = await paymentApplication.updatePayment(
+    externalReference,
+    {
+      status: PaymentStatus.PENDING,
+      paymentId: Number(paymentId),
+    }
+  );
+  const preference = await getPaymentByPaymentIdAdapter(preferenceId);
+  const ticketMapped = fromPreferenceToTicket(preference);
+
+  await notificationService.sendEmailPendingNotification(ticketMapped);
   return `${process.env.FRONT_URL}/pago-pendiente`;
 };
 
@@ -45,9 +59,23 @@ export const handleRejectedPayment = async (
   paymentId: string,
   externalReference: string
 ) => {
-  await paymentApplication.updatePayment(externalReference, {
-    status: PaymentStatus.REJECTED,
-    paymentId: Number(paymentId),
-  });
+  const payment = await paymentApplication.getPaymentByExternalReference(
+    externalReference
+  );
+  if (payment.status === PaymentStatus.REJECTED) {
+    return `${process.env.FRONT_URL}`;
+  }
+  const { preferenceId } = await paymentApplication.updatePayment(
+    externalReference,
+    {
+      status: PaymentStatus.REJECTED,
+      paymentId: Number(paymentId),
+    }
+  );
+  const preference = await getPaymentByPaymentIdAdapter(preferenceId);
+  const ticketMapped = fromPreferenceToTicket(preference);
+
+  await notificationService.sendEmailRejectedNotification(ticketMapped);
+
   return `${process.env.FRONT_URL}/pago-rechazado`;
 };

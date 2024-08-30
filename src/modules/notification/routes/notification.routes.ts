@@ -27,10 +27,6 @@ notificationRouter.post("/", async (req, res) => {
       });
       res.sendStatus(500);
     } else if (paymentStatus.status === "rejected") {
-      await paymentApplication.updatePayment(paymentStatus.externalReference, {
-        status: PaymentStatus.REJECTED,
-        paymentId: Number(paymentId),
-      });
       res.sendStatus(500);
     }
   }
