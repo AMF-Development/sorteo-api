@@ -1,7 +1,9 @@
-export interface ITicket {
+import mongoose, { Document } from "mongoose";
+
+export interface ITicketDocument extends Document {
   name: string;
   lastName: string;
   phone: string;
   email: string;
-  amount: number;
+  purchasedNumbers: mongoose.Types.ObjectId[];
 }

@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateTicketDto {
   @IsString()
@@ -16,4 +16,8 @@ export class CreateTicketDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  numbersPurchased: number;
 }

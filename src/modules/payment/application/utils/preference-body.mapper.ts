@@ -1,4 +1,5 @@
 import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
+import { ticketPackSelectorItem } from "@/modules/ticket/application/utils/ticket.mapper";
 import { PreferenceCreateData } from "mercadopago/dist/clients/preference/create/types";
 import { v4 as uuid } from "uuid";
 
@@ -9,16 +10,10 @@ export function preferenceBodyMapper(
   const phone = ticket.phone.split("-")[1];
   const fechaActual = new Date();
   const fechaConSuma = new Date(fechaActual.getTime() + 10 * 60000);
+  const itemSelected = ticketPackSelectorItem(ticket.numbersPurchased);
   return {
     body: {
-      items: [
-        {
-          id: uuid(),
-          title: "Ticket",
-          quantity: 1,
-          unit_price: 1000,
-        },
-      ],
+      items: [itemSelected],
       payer: {
         name: ticket.name,
         surname: ticket.lastName,
