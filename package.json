@@ -8,7 +8,8 @@
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
     "serve": "nodemon src/server.ts",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "seed": "npx ts-node -r tsconfig-paths/register src/config/numbers.seed.ts"
   },
   "author": "",
   "license": "ISC",

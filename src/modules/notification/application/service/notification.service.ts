@@ -3,7 +3,7 @@ import {
   SendMailOptions,
 } from "@/modules/notification/infrastructure/adapter/mail-service.adapter";
 import { paymentApplication } from "@/modules/payment/application/payment.application";
-import { ITicketDocument } from "@/modules/ticket/infrastructure/entities/ticket.model";
+import { ITicketDocument } from "@/modules/ticket/application/interface/ticket.interface";
 import {
   handleRejectedPayment,
   handleApprovedPayment,
@@ -44,11 +44,11 @@ export const notificationService = {
     }
   },
   async sendEmailConfirmedNotification(ticket: ITicketDocument) {
-    const { email, name, lastName, amount } = ticket;
+    const { email, name, lastName } = ticket;
     const emailOptions: SendMailOptions = {
       to: email,
       subject: "¡Tu pago ha sido confirmado!",
-      html: `Le enviamos este correo ${name} ${lastName} para confirmar que su pago ha sido aprobado. <br> \n Usted posee ${amount} participaciones!<br> \n <br> \n ¡Gracias por confiar en nosotros y mucha suerte!`,
+      html: `Le enviamos este correo ${name} ${lastName} para confirmar que su pago ha sido aprobado. <br> \n Usted posee  participaciones!<br> \n <br> \n ¡Gracias por confiar en nosotros y mucha suerte!`,
     };
     await sendEmailNotificationAdapter(emailOptions);
   },
