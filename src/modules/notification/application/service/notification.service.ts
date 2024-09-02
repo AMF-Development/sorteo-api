@@ -10,6 +10,7 @@ import {
   handlePendingPayment,
 } from "@/modules/payment/application/utils/handle-payment-status.util";
 import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
+import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
 
 export const notificationService = {
   async handlePaymentStatus(paymentId: string) {
@@ -17,6 +18,7 @@ export const notificationService = {
       const paymentStatus = await paymentApplication.checkPaymentStatus(
         Number(paymentId)
       );
+
       switch (paymentStatus.status) {
         case PaymentStatus.APPROVED:
           return handleApprovedPayment(
@@ -41,12 +43,30 @@ export const notificationService = {
       return `${process.env.FRONT_URL}/pago-no-confirmado`;
     }
   },
-  async sendEmailNotification(ticket: ITicketDocument) {
-    const { email } = ticket;
+  async sendEmailConfirmedNotification(ticket: ITicketDocument) {
+    const { email, name, lastName, amount } = ticket;
     const emailOptions: SendMailOptions = {
       to: email,
       subject: "¡Tu pago ha sido confirmado!",
-      html: `Le enviamos este correo ${ticket.name} ${ticket.lastName} para confirmar que su pago ha sido aprobado. <br> \n Usted posee ${ticket.amount} participaciones!<br> \n <br> \n ¡Gracias por confiar en nosotros y mucha suerte!`,
+      html: `Le enviamos este correo ${name} ${lastName} para confirmar que su pago ha sido aprobado. <br> \n Usted posee ${amount} participaciones!<br> \n <br> \n ¡Gracias por confiar en nosotros y mucha suerte!`,
+    };
+    await sendEmailNotificationAdapter(emailOptions);
+  },
+  async sendEmailPendingNotification(ticket: CreateTicketDto) {
+    const { email, name, lastName } = ticket;
+    const emailOptions: SendMailOptions = {
+      to: email,
+      subject: "¡Tu pago está pendiente!",
+      html: `Le enviamos este correo ${name} ${lastName} para informarle que su pago está pendiente. <br> \n <br> \n ¡Gracias por confiar en nosotros!`,
+    };
+    await sendEmailNotificationAdapter(emailOptions);
+  },
+  async sendEmailRejectedNotification(ticket: CreateTicketDto) {
+    const { email, name, lastName } = ticket;
+    const emailOptions: SendMailOptions = {
+      to: email,
+      subject: "¡Tu pago ha sido rechazado!",
+      html: `Le enviamos este correo ${name} ${lastName} para informarle que su pago ha sido rechazado. <br> \n <br> \n ¡Gracias por confiar en nosotros!`,
     };
     await sendEmailNotificationAdapter(emailOptions);
   },
