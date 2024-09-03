@@ -4,7 +4,7 @@ import { PreferenceResponse } from "mercadopago/dist/clients/preference/commonTy
 import { ITicketDocument } from "../interface/ticket.interface";
 import { categoryPack } from "@/modules/payment/application/enum/payment-pack.enum";
 import { Items } from "mercadopago/dist/clients/commonTypes";
-import MPTicket from "../mp-ticket-pack";
+import MPTicket from "./mp-ticket-pack.util";
 
 export function ticketMapper(ticket: CreateTicketDto): ITicketDocument {
   const newTicket = new Ticket();

@@ -27,4 +27,8 @@ export const NumberLotteryApplication = {
   async getAvailableNumbers() {
     return await NumberLotteryService.getAvailableNumbers();
   },
+
+  async getNumbersByTicket(ticketId: string) {
+    return await NumberLotteryService.getNumbersByTicket(ticketId);
+  },
 };
