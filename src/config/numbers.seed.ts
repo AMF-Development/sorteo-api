@@ -7,13 +7,11 @@ mongoose.connect(`${process.env.MONGO_URI}`);
 
 const seedNumbers = async () => {
   try {
-    // Primero, elimina cualquier número existente
     await NumberLottery.deleteMany({});
 
-    // Genera y guarda los números de 0000 a 4999
     const numbers = [];
     for (let i = 0; i <= 4999; i++) {
-      const number = i.toString().padStart(4, "0"); // Formato con 4 cifras
+      const number = i.toString().padStart(4, "0");
       numbers.push({ number });
     }
 

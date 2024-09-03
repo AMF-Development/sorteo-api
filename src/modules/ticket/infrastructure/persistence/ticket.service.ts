@@ -24,6 +24,9 @@ export const ticketService = {
     try {
       return await Ticket.findOne({
         email,
+      }).populate({
+        path: "purchasedNumbers",
+        select: "number",
       });
     } catch (error: any) {
       throw new Error(`Failed to get ticket by email: ${error.message}`);

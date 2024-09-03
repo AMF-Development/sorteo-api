@@ -36,6 +36,7 @@ export const ticketApplication = {
   async getTicketByEmail(email: string): Promise<ITicketDocument | null> {
     try {
       const emailDb = await ticketService.getTicketByEmail(email);
+
       if (!emailDb) {
         throw new Error("Ticket not found for the given email");
       }

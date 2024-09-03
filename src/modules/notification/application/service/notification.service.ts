@@ -18,7 +18,6 @@ export const notificationService = {
       const paymentStatus = await paymentApplication.checkPaymentStatus(
         Number(paymentId)
       );
-
       switch (paymentStatus.status) {
         case PaymentStatus.APPROVED:
           return handleApprovedPayment(
