@@ -3,7 +3,7 @@ import {
   SendMailOptions,
 } from "@/modules/notification/infrastructure/adapter/mail-service.adapter";
 import { paymentApplication } from "@/modules/payment/application/payment.application";
-import { ITicketDocument } from "@/modules/ticket/infrastructure/entities/ticket.model";
+import { ITicketDocument } from "@/modules/ticket/application/interface/ticket.interface";
 import {
   handleRejectedPayment,
   handleApprovedPayment,
@@ -11,6 +11,7 @@ import {
 } from "@/modules/payment/application/utils/handle-payment-status.util";
 import { PaymentStatus } from "@/modules/payment/application/enum/payment-status.enum";
 import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
+import { NumberLotteryApplication } from "@/modules/numbers/application/numbers.application";
 
 export const notificationService = {
   async handlePaymentStatus(paymentId: string) {
@@ -18,7 +19,6 @@ export const notificationService = {
       const paymentStatus = await paymentApplication.checkPaymentStatus(
         Number(paymentId)
       );
-
       switch (paymentStatus.status) {
         case PaymentStatus.APPROVED:
           return handleApprovedPayment(
@@ -44,11 +44,35 @@ export const notificationService = {
     }
   },
   async sendEmailConfirmedNotification(ticket: ITicketDocument) {
-    const { email, name, lastName, amount } = ticket;
+    const { email, name, lastName, purchasedNumbers } = ticket;
+    const numbers = await NumberLotteryApplication.getNumbersByTicket(
+      ticket._id as string
+    );
     const emailOptions: SendMailOptions = {
       to: email,
       subject: "¡Tu pago ha sido confirmado!",
-      html: `Le enviamos este correo ${name} ${lastName} para confirmar que su pago ha sido aprobado. <br> \n Usted posee ${amount} participaciones!<br> \n <br> \n ¡Gracias por confiar en nosotros y mucha suerte!`,
+      html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <h2 style="color: #4CAF50;">¡Tu pago ha sido confirmado!</h2>
+        <p>Estimado/a <strong>${name} ${lastName}</strong>,</p>
+        <p>Nos complace informarte que tu pago ha sido aprobado con éxito.</p>
+        <p>Tienes asignados <strong>${
+          purchasedNumbers.length
+        }</strong> números:</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; max-width: 100%;">
+          ${numbers
+            .map(
+              (num) => `
+            <div style="display: inline-block; width: 50px; padding: 10px; margin: 5px; text-align: center; background: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
+              ${num.number.trim()}
+            </div>`
+            )
+            .join("")}
+        </div>
+        <p style="margin-top: 20px;">¡Gracias por confiar en nosotros y mucha suerte!</p>
+        <br>
+        <p style="font-size: 0.9em; color: #999;">Este es un correo generado automáticamente, por favor no responda a este mensaje.</p>
+      </div>`,
     };
     await sendEmailNotificationAdapter(emailOptions);
   },
@@ -57,7 +81,17 @@ export const notificationService = {
     const emailOptions: SendMailOptions = {
       to: email,
       subject: "¡Tu pago está pendiente!",
-      html: `Le enviamos este correo ${name} ${lastName} para informarle que su pago está pendiente. <br> \n <br> \n ¡Gracias por confiar en nosotros!`,
+      html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <h2 style="color: #FFA500;">¡Tu pago está pendiente!</h2>
+        <p>Estimado/a <strong>${name} ${lastName}</strong>,</p>
+        <p>Queremos informarte que tu pago está actualmente en estado pendiente.</p>
+        <p>Nos pondremos en contacto contigo cuando el estado del pago cambie.</p>
+        <br>
+        <p>¡Gracias por confiar en nosotros!</p>
+        <br>
+        <p style="font-size: 0.9em; color: #999;">Este es un correo generado automáticamente, por favor no responda a este mensaje.</p>
+      </div>`,
     };
     await sendEmailNotificationAdapter(emailOptions);
   },
@@ -66,7 +100,16 @@ export const notificationService = {
     const emailOptions: SendMailOptions = {
       to: email,
       subject: "¡Tu pago ha sido rechazado!",
-      html: `Le enviamos este correo ${name} ${lastName} para informarle que su pago ha sido rechazado. <br> \n <br> \n ¡Gracias por confiar en nosotros!`,
+      html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; ">
+        <h2 style="color: #FF0000;">¡Tu pago ha sido rechazado!</h2>
+        <p>Estimado/a <strong>${name} ${lastName}</strong>,</p>
+        <p>Lamentamos informarte que tu pago ha sido rechazado. Te sugerimos revisar los detalles de tu transacción o contactar a tu proveedor de servicios de pago.</p>
+        <br>
+        <p>¡Gracias por confiar en nosotros!</p>
+        <br>
+        <p style="font-size: 0.9em; color: #999;">Este es un correo generado automáticamente, por favor no responda a este mensaje.</p>
+      </div>`,
     };
     await sendEmailNotificationAdapter(emailOptions);
   },

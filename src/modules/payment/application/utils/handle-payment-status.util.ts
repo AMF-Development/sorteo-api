@@ -26,8 +26,9 @@ export const handleApprovedPayment = async (
 
   const ticketMapped = fromPreferenceToTicket(preference);
   const ticket = await ticketApplication.createTicket(ticketMapped);
+
   await notificationService.sendEmailConfirmedNotification(ticket);
-  return `${process.env.FRONT_URL}/pago-confirmado?name=${ticket.name}&email=${ticket.email}&amount=${ticket.amount}`;
+  return `${process.env.FRONT_URL}/pago-confirmado?name=${ticket.name}&email=${ticket.email}`;
 };
 
 export const handlePendingPayment = async (

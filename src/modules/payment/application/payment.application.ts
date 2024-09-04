@@ -5,17 +5,26 @@ import { IPaymentDocument } from "@/modules/payment/infrastructure/entities/paym
 import { paymentService } from "@/modules/payment/infrastructure/persistence/payment.service";
 import { paymentMapper } from "@/modules/payment/application/utils/payment.mapper";
 import { preferenceBodyMapper } from "@/modules/payment/application/utils/preference-body.mapper";
+import { NumberLotteryApplication } from "@/modules/numbers/application/numbers.application";
+import { createPaymentErrors } from "./errors/create-payment.errors";
 
 export const paymentApplication = {
   async createPayment(ticket: CreateTicketDto) {
     try {
       const modifiedTicket = { ...ticket, email: ticket.email.toLowerCase() };
 
+      const availableNumbers =
+        await NumberLotteryApplication.getAvailableNumbers();
+
+      if (availableNumbers.length < modifiedTicket.numbersPurchased) {
+        throw new Error(createPaymentErrors.notEnoughNumbers);
+      }
+
       const preferenceBody = preferenceBodyMapper(modifiedTicket);
       const payment = await createPaymentAdapter(preferenceBody);
 
       if (!payment) {
-        throw new Error("Failed to create payment");
+        throw new Error(createPaymentErrors.failedToCreatePaymentLink);
       }
 
       const paymentMapped = paymentMapper(payment);
@@ -25,7 +34,7 @@ export const paymentApplication = {
       return payment;
     } catch (error: any) {
       console.error(`Failed to create payment link: ${error.message}`);
-      throw new Error(`Failed to create payment link: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   },
 

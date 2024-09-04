@@ -1,8 +1,7 @@
 import { CreateTicketDto } from "@/modules/ticket/application/dto/create-ticket.dto";
-import Ticket, {
-  ITicketDocument,
-} from "@/modules/ticket/infrastructure/entities/ticket.model";
+import Ticket from "@/modules/ticket/infrastructure/entities/ticket.model";
 import { ticketMapper } from "@/modules/ticket/application/utils/ticket.mapper";
+import { ITicketDocument } from "../../application/interface/ticket.interface";
 
 export const ticketService = {
   async createTicket(ticket: CreateTicketDto): Promise<ITicketDocument> {
@@ -14,9 +13,8 @@ export const ticketService = {
       throw new Error(`Failed to create ticket: ${error.message}`);
     }
   },
-  async updateTicketAmount(ticket: ITicketDocument): Promise<ITicketDocument> {
+  async updateTicket(ticket: ITicketDocument): Promise<ITicketDocument> {
     try {
-      ticket.amount += 1;
       return await ticket.save();
     } catch (error: any) {
       throw new Error(`Failed to update ticket amount: ${error.message}`);
@@ -26,6 +24,9 @@ export const ticketService = {
     try {
       return await Ticket.findOne({
         email,
+      }).populate({
+        path: "purchasedNumbers",
+        select: "number",
       });
     } catch (error: any) {
       throw new Error(`Failed to get ticket by email: ${error.message}`);

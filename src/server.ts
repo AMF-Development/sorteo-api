@@ -5,6 +5,7 @@ import paymentRouter from "./modules/payment/routes/payment.routes";
 import notificationRouter from "./modules/notification/routes/notification.routes";
 import cors from "cors";
 import ticketRouter from "./modules/ticket/routes/ticket.routes";
+import numberRouter from "./modules/numbers/routes/number.routes";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ mongoose
 app.use("/api/ticket", paymentRouter);
 app.use("/api/notification", notificationRouter);
 app.use("/api/ticket", ticketRouter);
+app.use("/api/numbers", numberRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
