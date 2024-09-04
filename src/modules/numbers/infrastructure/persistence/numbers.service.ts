@@ -14,4 +14,7 @@ export const NumberLotteryService = {
   async getNumbersByTicket(ticketId: string): Promise<INumberDocument[]> {
     return await NumberLottery.find({ assignedTo: ticketId });
   },
+  async getAvailableNumbersCount(): Promise<number> {
+    return await NumberLottery.countDocuments({ assignedTo: null });
+  },
 };
