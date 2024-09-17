@@ -12,7 +12,7 @@ export const ticketApplication = {
       if (existingTicket) {
         return this.assingNumbersToTicket(
           existingTicket,
-          ticket.numbersPurchased
+          ticket.packageSelected
         );
       }
 
@@ -20,7 +20,7 @@ export const ticketApplication = {
 
       return await this.assingNumbersToTicket(
         ticketCreated,
-        ticket.numbersPurchased
+        ticket.packageSelected
       );
     } catch (error: any) {
       throw new Error(error);

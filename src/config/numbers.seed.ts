@@ -10,7 +10,7 @@ const seedNumbers = async () => {
     await NumberLottery.deleteMany({});
 
     const numbers = [];
-    for (let i = 0; i <= 4999; i++) {
+    for (let i = 0; i <= 10; i++) {
       const number = i.toString().padStart(4, "0");
       numbers.push({ number });
     }

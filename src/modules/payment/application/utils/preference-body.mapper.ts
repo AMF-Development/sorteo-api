@@ -10,7 +10,7 @@ export function preferenceBodyMapper(
   const phone = ticket.phone.split("-")[1];
   const fechaActual = new Date();
   const fechaConSuma = new Date(fechaActual.getTime() + 10 * 60000);
-  const itemSelected = ticketPackSelectorItem(ticket.numbersPurchased);
+  const itemSelected = ticketPackSelectorItem(ticket.packageSelected);
   return {
     body: {
       items: [itemSelected],

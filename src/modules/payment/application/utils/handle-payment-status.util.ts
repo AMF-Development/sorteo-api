@@ -4,6 +4,7 @@ import { PaymentStatus } from "@/modules/payment/application/enum/payment-status
 import { fromPreferenceToTicket } from "@/modules/ticket/application/utils/ticket.mapper";
 import { ticketApplication } from "@/modules/ticket/application/ticket.application";
 import { notificationService } from "@/modules/notification/application/service/notification.service";
+import { NumberLotteryApplication } from "@/modules/numbers/application/numbers.application";
 
 export const handleApprovedPayment = async (
   paymentId: string,
@@ -26,9 +27,14 @@ export const handleApprovedPayment = async (
 
   const ticketMapped = fromPreferenceToTicket(preference);
   const ticket = await ticketApplication.createTicket(ticketMapped);
-
+  const numbers = await NumberLotteryApplication.getNumbersByTicket(
+    ticket._id as string
+  );
+  const formattedNumbers = numbers
+    .map((num: { number: string }) => num.number) // Extrae el campo 'number'
+    .join(",");
   await notificationService.sendEmailConfirmedNotification(ticket);
-  return `${process.env.FRONT_URL}/pago-confirmado?name=${ticket.name}&email=${ticket.email}`;
+  return `${process.env.FRONT_URL}/pago-confirmado?name=${ticket.name}&email=${ticket.email}&numbers=${formattedNumbers}`;
 };
 
 export const handlePendingPayment = async (
