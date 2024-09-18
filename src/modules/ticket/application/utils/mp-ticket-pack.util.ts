@@ -6,21 +6,21 @@ export default class MPTicket {
     id: uuid(),
     title: "Ticket de lotería pack 1",
     quantity: 1,
-    unit_price: 1000,
+    unit_price: 35000,
     category_id: categoryPack.PACK1,
   };
   static PACK2 = {
     id: uuid(),
     title: "Ticket de lotería pack 2",
     quantity: 1,
-    unit_price: 2000,
+    unit_price: 60000,
     category_id: categoryPack.PACK2,
   };
   static PACK3 = {
     id: uuid(),
     title: "Ticket de lotería pack 3",
     quantity: 1,
-    unit_price: 3000,
+    unit_price: 85000,
     category_id: categoryPack.PACK3,
   };
 }

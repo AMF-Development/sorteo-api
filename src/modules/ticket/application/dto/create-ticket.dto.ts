@@ -19,5 +19,5 @@ export class CreateTicketDto {
 
   @IsNotEmpty()
   @IsNumber()
-  numbersPurchased: number;
+  packageSelected: number;
 }

@@ -25,12 +25,12 @@ export function fromPreferenceToTicket(
     lastName: preference.payer.surname,
     phone,
     email: preference.payer.email,
-    numbersPurchased: ticketPackSelector(categoryId),
+    packageSelected: ticketPackSelector(categoryId),
   };
 }
 
-function ticketPackSelector(numbersPurchased: string): number {
-  switch (numbersPurchased) {
+function ticketPackSelector(packageSelected: string): number {
+  switch (packageSelected) {
     case categoryPack.PACK1:
       return 1;
     case categoryPack.PACK2:
@@ -40,8 +40,8 @@ function ticketPackSelector(numbersPurchased: string): number {
   }
 }
 
-export function ticketPackSelectorItem(numbersPurchased: number): Items {
-  switch (numbersPurchased) {
+export function ticketPackSelectorItem(packageSelected: number): Items {
+  switch (packageSelected) {
     case 1:
       return MPTicket.PACK1;
     case 2:

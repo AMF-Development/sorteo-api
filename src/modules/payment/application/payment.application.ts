@@ -16,7 +16,7 @@ export const paymentApplication = {
       const availableNumbers =
         await NumberLotteryApplication.getAvailableNumbers();
 
-      if (availableNumbers.length < modifiedTicket.numbersPurchased) {
+      if (availableNumbers.length < modifiedTicket.packageSelected) {
         throw new Error(createPaymentErrors.notEnoughNumbers);
       }
 
